@@ -2,9 +2,10 @@
 
 ## Current status
 
-Local implementation gates pass on Node `v26.7.0` and PostgreSQL `17.11 (Homebrew)`. Public repository, clean-clone reproduction,
-Node 22/24/26 GitHub Actions, and external acceptance are pending. This page will not call the repository complete until public
-receipts exist.
+Local implementation gates pass on Node `v26.7.0` and PostgreSQL `17.11 (Homebrew)`. The first public implementation run,
+[GitHub Actions 32203383219](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219), passed from
+commit `5e5b10c2b42b8500918737db69e1185abe04a75e` in clean GitHub checkouts on Node 22/24/26 with the pinned PostgreSQL 17.11
+container. Payment, property, room, check-in, production capacity, SLA, and external acceptance remain unproved and out of scope.
 
 ## Local correctness receipts
 
@@ -58,13 +59,28 @@ channel/physical room/check-in, database replication/failover, distributed servi
 The first PostgreSQL command failed before loading tests because only the lockfile had been generated and `pg` was not installed.
 After `npm ci`, 7/9 tests passed; the two expiry fixtures attempted to set `expires_at` before `created_at`, correctly violating the
 schema. The fixture now moves both timestamps into the past while preserving `expires_at > created_at`. No product constraint or
-assertion was weakened. The eventual public history must still disclose whether its first run is green.
+assertion was weakened. The public history shows that the first implementation run was green.
 
-## Remaining completion gates
+## First public implementation run
 
-- repository policy/link/privacy scan and full local `check:ci`;
-- implementation commit with clean worktree;
-- public GitHub repository, topics, description, and default branch;
-- public Node 22/24/26 + PostgreSQL 17.11 run with zero skips and exact per-job results;
-- final documentation commit and a second green public run if evidence text changes;
-- parent project card/plan/restore metadata update bound to the final remote commit.
+Run `32203383219` used PostgreSQL `17.11` in every job. Each job passed the repository policy/link/privacy scan, dependency audit,
+18 pure tests, 9 real-PostgreSQL tests, four-process crash smoke, and the fixed benchmark with zero test failures, skips, or todos.
+
+| Job | Runtime | Result | Inventory rows/s | Query p50 / p95 | Hold p50 / p95 | Confirm p50 / p95 | Cancel / reap p50 | 8-way race |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| [`95921655731`](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219/job/95921655731) | Node `v22.23.2` | 18 + 9 tests; 0 fail/skip/todo | 354.896 | 3.001 / 3.831 ms | 4.222 / 8.779 ms | 4.869 / 8.747 ms | 3.324 / 3.683 ms | 39.071 ms |
+| [`95921655735`](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219/job/95921655735) | Node `v24.19.0` | 18 + 9 tests; 0 fail/skip/todo | 393.057 | 2.644 / 3.136 ms | 4.066 / 4.365 ms | 5.092 / 7.807 ms | 3.340 / 3.713 ms | 39.845 ms |
+| [`95921655769`](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219/job/95921655769) | Node `v26.7.0` | 18 + 9 tests; 0 fail/skip/todo | 393.093 | 2.571 / 3.610 ms | 3.925 / 5.011 ms | 4.839 / 7.795 ms | 3.372 / 3.563 ms | 42.205 ms |
+
+These are concurrent hosted-runner observations, not a controlled Node-version comparison. Runner load, shared database-container
+resources, and scheduling differ; the values establish only that the bounded fixture completed and emitted its receipt.
+
+## Completion accounting
+
+- Repository policy/link/privacy scan and full local `check:ci`: complete.
+- Implementation commit with clean worktree: complete at `5e5b10c2b42b8500918737db69e1185abe04a75e`.
+- Public repository, topics, description, and default `main`: complete.
+- First public Node 22/24/26 + PostgreSQL 17.11 run: complete and green at `32203383219`.
+- Documentation evidence update: this commit must pass the same public matrix before the final remote commit is recorded in parent
+  restore metadata.
+- External acceptance: not requested, not run, and not implied by repository completion.

@@ -21,7 +21,9 @@ transactional authority around:
 - one-way hold-to-booking conversion, idempotent cancellation, and explicit false payment/property/room/check-in/stay receipts.
 
 The implementation, pure tests, real PostgreSQL tests, four-boundary true-process crash smoke, and bounded benchmark pass locally.
-Public remote and public multi-runtime CI receipts are pending.
+The first public implementation run, [GitHub Actions 32203383219](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219),
+also passed on Node 22/24/26 with PostgreSQL 17.11. Each job reported 18 pure tests and 9 PostgreSQL tests with zero
+failures, skips, or todos. This is a reproducibility receipt for the named synthetic boundary, not hotel or payment acceptance.
 
 The fixed secondary chapter is useful for room-type-per-date inventory, concurrency choices, stale-cache tolerance, and keeping
 dependent inventory/reservation writes in one relational boundary. It does not define hold expiry or stable recovery receipts, and
