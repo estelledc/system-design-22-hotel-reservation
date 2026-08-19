@@ -2,10 +2,22 @@
 
 ## Current status
 
-Local implementation gates pass on Node `v26.7.0` and PostgreSQL `17.11 (Homebrew)`. The first public implementation run,
-[GitHub Actions 32203383219](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219), passed from
-commit `5e5b10c2b42b8500918737db69e1185abe04a75e` in clean GitHub checkouts on Node 22/24/26 with the pinned PostgreSQL 17.11
-container. Payment, property, room, check-in, production capacity, SLA, and external acceptance remain unproved and out of scope.
+The identity-safe rewrite preserved every existing tree, message, and timestamp while mapping the four commits in order:
+
+- `f9b5e820e7023e40a139ce513401f3b2b6e3cdd2` → `f4b218a5b6ddbd69878ebdbb11b912bb8db82a7e`
+- `0dbfcc0f20012e442ae60dc31a087aecd72a44f6` → `fcfe0ccdb98cbf32b141ea79aa96683e9301fc5c`
+- `5e5b10c2b42b8500918737db69e1185abe04a75e` → `bf1b4ee55af5c294292c37a3ec5f91f7e854067e`
+- `185ef26caef3037ac58ebcc1b40a61e45278b434` → `638e34d4f56ff7140f47a4618d487cbaf7a8828a`
+
+Current reachable `main` uses the repository owner's GitHub noreply identity. Rewritten baseline
+`638e34d4f56ff7140f47a4618d487cbaf7a8828a` passed [CI run 32228340125](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32228340125)
+on Node 22/24/26 with the pinned PostgreSQL 17.11 container and the complete gate.
+
+Local implementation gates pass on Node `v26.7.0` and PostgreSQL `17.11 (Homebrew)`. Historical pre-rewrite
+[GitHub Actions 32203383219](https://github.com/estelledc/system-design-22-hotel-reservation/actions/runs/32203383219) passed from
+old implementation object `5e5b10c2b42b8500918737db69e1185abe04a75e`; its tree-equivalent current commit is
+`bf1b4ee55af5c294292c37a3ec5f91f7e854067e`, and the run remains bound to the old object. Payment, property, room, check-in,
+production capacity, SLA, and external acceptance remain unproved and out of scope.
 
 ## Local correctness receipts
 
@@ -78,7 +90,7 @@ resources, and scheduling differ; the values establish only that the bounded fix
 ## Completion accounting
 
 - Repository policy/link/privacy scan and full local `check:ci`: complete.
-- Implementation commit with clean worktree: complete at `5e5b10c2b42b8500918737db69e1185abe04a75e`.
+- Implementation commit with clean worktree: complete at current equivalent `bf1b4ee55af5c294292c37a3ec5f91f7e854067e`.
 - Public repository, topics, description, and default `main`: complete.
 - First public Node 22/24/26 + PostgreSQL 17.11 run: complete and green at `32203383219`.
 - Documentation evidence update: this commit must pass the same public matrix before the final remote commit is recorded in parent
