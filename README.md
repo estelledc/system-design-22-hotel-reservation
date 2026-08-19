@@ -10,16 +10,24 @@ alone before reading the fixed secondary chapter.
 
 ## Current phase
 
-Closed-book contract only. Source comparison, primary references, inventory/storage choice, implementation, tests, benchmark,
-public remote, CI, deployment, payment/property integration, SLA, and external acceptance are all pending.
+The closed-book contract and source-calibrated v0.1 design are frozen separately. The planned slice uses PostgreSQL 17 as one
+transactional authority for bounded local-date inventory, all-night holds, authoritative expiry, booking conversion,
+cancellation, worker fencing, and materialized availability receipts. Implementation, tests, benchmark, public remote, CI,
+deployment, payment/property integration, SLA, and external acceptance are pending.
 
-Candidate concerns include local-date stay intervals, per-night inventory conservation, quote and catalogue revisions, atomic
-multi-night holds, expiry ownership, booking idempotency, worker fencing, cancellation, stable reads, and evidence separation.
-They remain hypotheses until source review and executable validation.
+The fixed secondary chapter is useful for room-type-per-date inventory, concurrency choices, stale-cache tolerance, and keeping
+dependent inventory/reservation writes in one relational boundary. It does not define hold expiry or stable recovery receipts, and
+its inclusive date query, one inventory update predicate, overbooking/check-constraint examples, and optimistic-lock description
+need correction. The evidence log records those differences instead of silently inheriting them.
 
 ## Read first
 
 - [Closed-book contract](docs/closed-book-contract.md)
+- [Source comparison and evidence log](docs/research-log.md)
+- [Requirements](docs/requirements.md)
+- [Architecture](docs/architecture.md)
+- [API contract](docs/api.md)
+- [ADR 0001](docs/adr/0001-postgres-conserved-inventory.md)
 - [Security policy](SECURITY.md)
 
 ## Evidence boundary
